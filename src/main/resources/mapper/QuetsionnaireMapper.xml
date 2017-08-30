@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.qunar.survey.dao.QuestionnaireDao">
+
+    <insert id="insertOne" parameterType="Questionnaire"
+            useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into questionnaire(title, `year`, quarter, serial_num, office, doc_num, `desc`)
+        values(#{title}, #{year}, #{quarter}, #{serialNum}, #{office}, #{docNum}, #{desc})
+    </insert>
+
+    <select id="findById" parameterType="int" resultType="Questionnaire">
+        select * from questionnaire where id = #{id}
+    </select>
+
+    <select id="findByCondition" parameterType="Questionnaire" resultType="Questionnaire">
+        select * from questionnaire
+        <where>
+            <if test="title != null and title != ''">
+                AND title = #{title}
+            </if>
+            <if test="year > 0">
+                AND `year` = #{year}
+            </if>
+            <if test="quarter > 0">
+                AND quarter = #{quarter}
+            </if>
+            <if test="serialNum != null and serialNum != ''">
+                AND serial_num = #{serialNum}
+            </if>
+            <if test="office != null and office != ''">
+                AND office = #{office}
+            </if>
+            <if test="docNum != null and docNum != ''">
+                AND doc_num = #{docNum}
+            </if>
+        </where>
+    </select>
+</mapper>

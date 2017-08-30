@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2017 Qunar.com. All Rights Reserved.
  */
-package org.qunar.survey.bean.question;
+package org.qunar.survey.bean.model.question;
 
 import lombok.Data;
-import org.qunar.survey.bean.ChoiceAnswer;
-import org.qunar.survey.bean.Question;
+import org.qunar.survey.bean.entity.ChoiceAnswer;
+import org.qunar.survey.bean.entity.Question;
 
 import java.util.List;
 

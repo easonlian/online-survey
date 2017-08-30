@@ -6,7 +6,7 @@
          id="online-survey" version="2.5">
 
     <!-- db config -->
-    <context-param>
+    <!--<context-param>
         <param-name>db.url</param-name>
         <param-value>jdbc:h2:../data/survey</param-value>
     </context-param>
@@ -21,21 +21,22 @@
     <context-param>
         <param-name>db.tcpServer</param-name>
         <param-value>-tcpAllowOthers</param-value>
-    </context-param>
+    </context-param>-->
 
-    <servlet>
-        <servlet-name>H2Console</servlet-name>
-        <servlet-class>org.h2.server.web.WebServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>H2Console</servlet-name>
-        <url-pattern>/console/*</url-pattern>
-    </servlet-mapping>
+    <!-- h2默认方式启动db -->
+    <!--<servlet>-->
+        <!--<servlet-name>H2Console</servlet-name>-->
+        <!--<servlet-class>org.h2.server.web.WebServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>H2Console</servlet-name>-->
+        <!--<url-pattern>/console/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
-    <listener>
-        <listener-class>org.h2.server.web.DbStarter</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>org.h2.server.web.DbStarter</listener-class>-->
+    <!--</listener>-->
 
     <display-name>online-survey</display-name>
 </web-app>
