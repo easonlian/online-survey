@@ -18,8 +18,4 @@ public class Application extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Application.class);
     }
-
-    //  http://www.h2database.com/html/tutorial.html#tutorial_starting_h2_console
-    //  http://blog.csdn.net/guicaizhou/article/details/51862423
-
 }
