@@ -1,0 +1,38 @@
+2017-08-30 16:03:03 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "create table temp {
+}[*]" [42000-196]
+2017-08-30 16:03:40 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO TEST(1[*])"; expected "identifier"; SQL statement:
+INSERT INTO TEST(1) [42001-196]
+2017-08-31 11:54:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (SECTION: ID INT DEFAULT (NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A) NOT NULL NULL_TO_DEFAULT SEQUENCE PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A COMMENT STRINGDECODE('\u81ea\u589eid'))"; SQL statement:
+INSERT INTO "PUBLIC"."SECTION"("ID","QUESTIONNAIRE_ID","NAME","CREATE_TIME","UPDATE_TIME")VALUES(?,?,?,?,?) -- (?1, ?2, ?3, ?4, ?5) [22018-196]
+2017-08-31 11:54:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (SECTION: ID INT DEFAULT (NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A) NOT NULL NULL_TO_DEFAULT SEQUENCE PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A COMMENT STRINGDECODE('\u81ea\u589eid'))"; SQL statement:
+INSERT INTO "PUBLIC"."SECTION"("ID","QUESTIONNAIRE_ID","NAME","CREATE_TIME","UPDATE_TIME")VALUES(?,?,?,?,?) -- (?1, ?2, ?3, ?4, ?5) [22018-196]
+2017-08-31 11:55:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (SECTION: ID INT DEFAULT (NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A) NOT NULL NULL_TO_DEFAULT SEQUENCE PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A COMMENT STRINGDECODE('\u81ea\u589eid'))"; SQL statement:
+INSERT INTO "PUBLIC"."SECTION"("ID","QUESTIONNAIRE_ID","NAME","CREATE_TIME","UPDATE_TIME")VALUES(?,?,?,?,?) -- (?1, ?2, ?3, ?4, ?5) [22018-196]
+2017-08-31 11:55:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Data conversion error converting "'' (SECTION: ID INT DEFAULT (NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A) NOT NULL NULL_TO_DEFAULT SEQUENCE PUBLIC.SYSTEM_SEQUENCE_A0EF073A_C8AC_4B50_BBDD_CA9587AA8C3A COMMENT STRINGDECODE('\u81ea\u589eid'))"; SQL statement:
+INSERT INTO "PUBLIC"."SECTION"("ID","QUESTIONNAIRE_ID","NAME","CREATE_TIME","UPDATE_TIME")VALUES(?,?,?,?,?) -- (?1, ?2, ?3, ?4, ?5) [22018-196]
+2017-08-31 13:25:49 database: could not close the database
+java.lang.IllegalStateException: Can't overwrite cause with java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load [org.h2.mvstore.MVMap$2]. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+	at java.lang.Throwable.initCause(Throwable.java:457)
+	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForClassLoading(WebappClassLoaderBase.java:1343)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1205)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1166)
+	at org.h2.mvstore.MVMap.entrySet(MVMap.java:870)
+	at org.h2.store.LobStorageMap.removeAllForTable(LobStorageMap.java:314)
+	at org.h2.engine.Database.removeOrphanedLobs(Database.java:1340)
+	at org.h2.engine.Database.close(Database.java:1261)
+	at org.h2.engine.DatabaseCloser.run(DatabaseCloser.java:63)
+Caused by: java.lang.ClassNotFoundException
+	at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForClassLoading(WebappClassLoaderBase.java:1342)
+	... 7 more
+2017-08-31 14:21:01 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "QUESTION[*]"; SQL statement:
+QUESTION [42000-196]
+2017-08-31 19:10:31 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLException: Table "CHOISE_ITEM" not found; SQL statement:
+select * from choise_item where question_id = ? [42102-196]

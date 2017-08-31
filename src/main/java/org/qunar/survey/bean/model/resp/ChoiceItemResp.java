@@ -17,4 +17,5 @@ public class ChoiceItemResp {
     private Integer questionId;     //  题目id
     private Integer sequence;       //  题目序号
     private String desc;            //  题目描述
+    private String lastUpdate;          //  最后更新时间
 }

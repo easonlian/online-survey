@@ -20,4 +20,6 @@ public class SectionResp {
     private Integer id;                     //  主键
     private String name;                    //  名称
     private List<QuestionResp> questions = Lists.newArrayList();
+
+    private String lastUpdate;          //  最后更新时间
 }

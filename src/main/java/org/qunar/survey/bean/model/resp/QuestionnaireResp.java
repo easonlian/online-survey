@@ -29,4 +29,6 @@ public class QuestionnaireResp {
     private List<SectionResp> sections = Lists.newArrayList();
 
     private List<String> descList;      //  描述
+
+    private String lastUpdate;          //  最后更新时间
 }

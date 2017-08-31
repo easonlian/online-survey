@@ -24,4 +24,6 @@ public class QuestionResp {
     private QuestionType type;      //  题型
 
     private List<ChoiceItemResp> choiceItems = Lists.newArrayList();
+
+    private String lastUpdate;          //  最后更新时间
 }

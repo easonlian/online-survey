@@ -4,6 +4,8 @@
 package org.qunar.survey.web.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.qunar.survey.bean.entity.ChoiceItem;
 import org.qunar.survey.bean.entity.Question;
@@ -23,9 +25,12 @@ import org.qunar.survey.util.Jsons;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +62,8 @@ public class SampleController {
         QuestionnaireResp resp = new QuestionnaireResp();
         BeanUtils.copyProperties(questionnaire, resp);
         resp.setDescList(Jsons.fromJson(questionnaire.getDesc(), new TypeReference<List<String>>() {}));
+        resp.setLastUpdate(formatUpdateTime(questionnaire.getUpdateTime()));
+
         if (CollectionUtils.isEmpty(sections)) {
             return resp;
         }
@@ -64,6 +71,7 @@ public class SampleController {
             SectionResp sectionResp = new SectionResp();
             BeanUtils.copyProperties(section, sectionResp);
             resp.getSections().add(sectionResp);
+            sectionResp.setLastUpdate(formatUpdateTime(section.getUpdateTime()));
 
             List<Question> questions = questionDao.findBySectionId(section.getId());
             if (CollectionUtils.isEmpty(questions)) {
@@ -72,6 +80,7 @@ public class SampleController {
             for (Question question : questions) {
                 QuestionResp questionResp = new QuestionResp();
                 BeanUtils.copyProperties(question, questionResp);
+                questionResp.setLastUpdate(formatUpdateTime(question.getUpdateTime()));
 
                 if (question.getType() == QuestionType.FILL_IN_THE_BLACKS) {
                     sectionResp.getQuestions().add(questionResp);
@@ -84,11 +93,49 @@ public class SampleController {
                         ChoiceItemResp choiceItemResp = new ChoiceItemResp();
                         BeanUtils.copyProperties(choiceItem, choiceItemResp);
                         questionResp.getChoiceItems().add(choiceItemResp);
+                        choiceItemResp.setLastUpdate(formatUpdateTime(choiceItem.getUpdateTime()));
                     }
                     sectionResp.getQuestions().add(questionResp);
                 }
             }
         }
+        return resp;
+    }
+
+    private String formatUpdateTime(Date updateTime) {
+        return new SimpleDateFormat("yyyy-MM-dd hh:mm").format(updateTime);
+    }
+
+    @RequestMapping("/questionnaire/list")
+    public String questionnaireList(ModelMap map) {
+        map.put("list", transform(questionnaireDao.findByCondition(null)));
+        return "list";
+    }
+
+    @RequestMapping("/questionnaire/detail")
+    public String detail(ModelMap map) {
+        Questionnaire questionnaire = questionnaireDao.findById(1);
+        List<Section> sections = sectionDao.findByQuestionnaireId(questionnaire.getId());
+        map.put("detail", buildQuestionnaireResp(questionnaire, sections));
+        return "detail";
+    }
+
+    private List<QuestionnaireResp> transform(List<Questionnaire> entities) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return Lists.newArrayList();
+        }
+        return Lists.transform(entities, new Function<Questionnaire, QuestionnaireResp>() {
+            @Override
+            public QuestionnaireResp apply(Questionnaire questionnaire) {
+                return transform(questionnaire);
+            }
+        });
+    }
+
+    private QuestionnaireResp transform(Questionnaire entity) {
+        QuestionnaireResp resp = new QuestionnaireResp();
+        BeanUtils.copyProperties(entity, resp);
+        resp.setLastUpdate(formatUpdateTime(entity.getUpdateTime()));
         return resp;
     }
 
