@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 问卷dao
+ */
 @Repository @Mapper
 public interface QuestionnaireDao {
 

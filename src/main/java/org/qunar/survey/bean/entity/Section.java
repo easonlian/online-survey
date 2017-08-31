@@ -6,7 +6,6 @@ package org.qunar.survey.bean.entity;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 问卷分块
@@ -16,6 +15,7 @@ public class Section {
 
     private Integer id;                     //  主键
     private Integer questionnaireId;        //  问卷id
+    private Integer sequence;               //  序号
     private String name;                    //  名称
 
     private Date createTime;

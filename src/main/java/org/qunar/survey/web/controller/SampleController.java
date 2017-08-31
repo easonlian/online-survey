@@ -3,17 +3,30 @@
  */
 package org.qunar.survey.web.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.collections.CollectionUtils;
+import org.qunar.survey.bean.entity.ChoiceItem;
+import org.qunar.survey.bean.entity.Question;
+import org.qunar.survey.bean.entity.QuestionType;
 import org.qunar.survey.bean.entity.Questionnaire;
+import org.qunar.survey.bean.entity.Section;
+import org.qunar.survey.bean.model.resp.ChoiceItemResp;
+import org.qunar.survey.bean.model.resp.JsonResp;
+import org.qunar.survey.bean.model.resp.QuestionResp;
+import org.qunar.survey.bean.model.resp.QuestionnaireResp;
+import org.qunar.survey.bean.model.resp.SectionResp;
+import org.qunar.survey.dao.ChoiceItemDao;
+import org.qunar.survey.dao.QuestionDao;
 import org.qunar.survey.dao.QuestionnaireDao;
+import org.qunar.survey.dao.SectionDao;
+import org.qunar.survey.util.Jsons;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -25,11 +38,58 @@ public class SampleController {
 
     @Autowired
     private QuestionnaireDao questionnaireDao;
+    @Autowired
+    private SectionDao sectionDao;
+    @Autowired
+    private QuestionDao questionDao;
+    @Autowired
+    private ChoiceItemDao choiceItemDao;
 
     @RequestMapping("/query")
     @ResponseBody
-    public Questionnaire query() {
-        return questionnaireDao.findById(1);
+    public JsonResp<QuestionnaireResp> query() {
+        Questionnaire questionnaire = questionnaireDao.findById(1);
+        List<Section> sections = sectionDao.findByQuestionnaireId(questionnaire.getId());
+        return JsonResp.success(buildQuestionnaireResp(questionnaire, sections));
+    }
+
+    private QuestionnaireResp buildQuestionnaireResp(Questionnaire questionnaire, List<Section> sections) {
+        QuestionnaireResp resp = new QuestionnaireResp();
+        BeanUtils.copyProperties(questionnaire, resp);
+        resp.setDescList(Jsons.fromJson(questionnaire.getDesc(), new TypeReference<List<String>>() {}));
+        if (CollectionUtils.isEmpty(sections)) {
+            return resp;
+        }
+        for (Section section : sections) {
+            SectionResp sectionResp = new SectionResp();
+            BeanUtils.copyProperties(section, sectionResp);
+            resp.getSections().add(sectionResp);
+
+            List<Question> questions = questionDao.findBySectionId(section.getId());
+            if (CollectionUtils.isEmpty(questions)) {
+                continue;
+            }
+            for (Question question : questions) {
+                QuestionResp questionResp = new QuestionResp();
+                BeanUtils.copyProperties(question, questionResp);
+
+                if (question.getType() == QuestionType.FILL_IN_THE_BLACKS) {
+                    sectionResp.getQuestions().add(questionResp);
+                } else {
+                    List<ChoiceItem> choiceItems = choiceItemDao.findByQuestionId(question.getId());
+                    if (CollectionUtils.isEmpty(choiceItems)) {
+                        continue;
+                    }
+                    for (ChoiceItem choiceItem : choiceItems) {
+                        ChoiceItemResp choiceItemResp = new ChoiceItemResp();
+                        BeanUtils.copyProperties(choiceItem, choiceItemResp);
+                        questionResp.getChoiceItems().add(choiceItemResp);
+                    }
+                    sectionResp.getQuestions().add(questionResp);
+                }
+            }
+        }
+        return resp;
     }
 
     @RequestMapping("/insert")
@@ -45,17 +105,5 @@ public class SampleController {
         bean.setDesc("[\"本表由花木企业的主要负责人接受访问调查。\", \"填报时间为2017年3、6、9、12月15-25日。\"]");
         int i = questionnaireDao.insertOne(bean);
         return i +  " " + bean;
-    }
-
-    @RequestMapping("/temp")
-    @ResponseBody
-    public String temp() throws Exception {
-        Class.forName("org.h2.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:h2:../data/survey", "sa", "sa");
-        PreparedStatement pstm = conn.prepareStatement("select * from test");
-        ResultSet resultSet = pstm.executeQuery();
-        String result = resultSet.toString();
-        conn.close();
-        return result;
     }
 }
