@@ -13,7 +13,7 @@ package org.qunar.survey.bean.model.resp;
 public class JsonResp<T> {
 
     private static final int SUCCESS = 0;
-    private static final int ERROR = 0;
+    private static final int ERROR = 1;
 
     private int code;
     private String desc;
@@ -37,8 +37,12 @@ public class JsonResp<T> {
         return new JsonResp<T>(SUCCESS, data, null);
     }
 
+    public static <T> JsonResp<T> success(T data, String desc) {
+        return new JsonResp<T>(SUCCESS, data, desc);
+    }
+
     public static <T> JsonResp<T> error(String desc) {
-        return new JsonResp<T>(SUCCESS, null, desc);
+        return new JsonResp<T>(ERROR, null, desc);
     }
 
     public T getData() {

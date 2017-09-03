@@ -8,21 +8,41 @@ package org.qunar.survey.bean.entity;
  * Author: jianyu.lin
  * Date: 2017/8/31 Time: 下午1:27
  */
+@SuppressWarnings("unused")
 public enum QuestionType {
 
-    FILL_IN_THE_BLACKS(0),
-    CHOICE(1),
-    MULTI_CHOICE(2),
+    FILL_IN_THE_BLACKS(0, "填空"),
+    CHOICE(1, "单选"),
+    MULTI_CHOICE(2, "多选"),
     ;
     public final int code;
+    private final String desc;
 
-    QuestionType(int code) {
+    QuestionType(int code, String desc) {
         this.code = code;
+        this.desc = desc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public static QuestionType codeOf(int code) {
         for (QuestionType type : QuestionType.values()) {
             if (type.code == code) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    public static QuestionType codeOf(String name) {
+        for (QuestionType type : QuestionType.values()) {
+            if (type.name().equals(name)) {
                 return type;
             }
         }

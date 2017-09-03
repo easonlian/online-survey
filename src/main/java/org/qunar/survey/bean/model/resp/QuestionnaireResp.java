@@ -25,10 +25,11 @@ public class QuestionnaireResp {
     private String serialNum;           //  表号
     private String office;              //  制表单位
     private String docNum;              //  文号
-
     private List<SectionResp> sections = Lists.newArrayList();
-
     private List<String> descList;      //  描述
-
     private String lastUpdate;          //  最后更新时间
+
+    private String user;                //  受访用户名
+    private String tel;                 //  受访人电话
+    private String date;                //  受访日期
 }

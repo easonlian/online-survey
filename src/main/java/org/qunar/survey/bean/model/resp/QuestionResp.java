@@ -5,6 +5,7 @@ package org.qunar.survey.bean.model.resp;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
+import org.qunar.survey.bean.entity.AnswerItem;
 import org.qunar.survey.bean.entity.QuestionType;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public class QuestionResp {
     private List<ChoiceItemResp> choiceItems = Lists.newArrayList();
 
     private String lastUpdate;          //  最后更新时间
+
+    private AnswerItem answerItem;      //  答案
 }

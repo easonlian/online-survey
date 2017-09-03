@@ -45,7 +45,7 @@ public abstract class Jsons {
         try {
             return objMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            logger.error("将Java对象转换成Json串出错！");
+            logger.error("将Java对象转换成Json串出错！", e);
             return null;
         }
     }
@@ -60,7 +60,7 @@ public abstract class Jsons {
         try {
             return objMapper.readValue(json, type);
         } catch (Exception e) {
-            logger.error("Json串转换成对象出错：{}", json);
+            logger.error("Json串转换成对象出错：{}", json, e);
             return null;
         }
     }
@@ -76,7 +76,7 @@ public abstract class Jsons {
         try {
             return objMapper.readValue(json, typeRef);
         } catch (Exception e) {
-            logger.error("Json串转换成对象出错：{}", json);
+            logger.error("Json串转换成对象出错：{}", json, e);
             return null;
         }
     }

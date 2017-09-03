@@ -20,26 +20,27 @@ import java.sql.SQLException;
  * Date: 2017/8/31 Time: 下午1:30
  */
 @MappedJdbcTypes(JdbcType.SMALLINT)
-public class QuestionTypeHandler extends BaseTypeHandler<QuestionType> {
+@SuppressWarnings("unused")
+public class QuestionTypeTypeHandler extends BaseTypeHandler<QuestionType> {
 
     @Override
-    public void setNonNullParameter(PreparedStatement preparedStatement,
+    public void setNonNullParameter(PreparedStatement ps,
                                     int i, QuestionType questionType, JdbcType jdbcType) throws SQLException {
-        preparedStatement.setInt(i, questionType.code);
+        ps.setInt(i, questionType.code);
     }
 
     @Override
-    public QuestionType getNullableResult(ResultSet resultSet, String s) throws SQLException {
-        return QuestionType.codeOf(resultSet.getInt(s));
+    public QuestionType getNullableResult(ResultSet rs, String columnName) throws SQLException {
+        return QuestionType.codeOf(rs.getInt(columnName));
     }
 
     @Override
-    public QuestionType getNullableResult(ResultSet resultSet, int i) throws SQLException {
-        return QuestionType.codeOf(resultSet.getInt(i));
+    public QuestionType getNullableResult(ResultSet resultSet, int columnIndex) throws SQLException {
+        return QuestionType.codeOf(resultSet.getInt(columnIndex));
     }
 
     @Override
-    public QuestionType getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
-        return QuestionType.codeOf(callableStatement.getInt(i));
+    public QuestionType getNullableResult(CallableStatement cs, int i) throws SQLException {
+        return QuestionType.codeOf(cs.getInt(i));
     }
 }

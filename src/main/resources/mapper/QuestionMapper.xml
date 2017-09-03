@@ -2,7 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.qunar.survey.dao.QuestionDao">
 
+    <insert id="insertOne" parameterType="Question">
+        insert into question(section_id, sequence, desc, type) values(#{sectionId}, #{sequence}, #{desc}, #{type});
+    </insert>
+
     <select id="findBySectionId" resultType="Question">
         select * from question where section_id = #{sectionId}
+    </select>
+    
+    <select id="findBySectionIds" resultType="Question">
+        select * from question where section_id in
+        <foreach collection="sectionIds" item="sectionId" open="(" separator="," close=")">
+            #{sectionId}
+        </foreach>
     </select>
 </mapper>

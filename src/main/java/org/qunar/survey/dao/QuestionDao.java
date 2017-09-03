@@ -18,5 +18,9 @@ import java.util.List;
 @Repository @Mapper
 public interface QuestionDao {
 
+    int insertOne(Question bean);
+
     List<Question> findBySectionId(@Param("sectionId") int sectionId);
+
+    List<Question> findBySectionIds(@Param("sectionIds") List<Integer> sectionIds);
 }

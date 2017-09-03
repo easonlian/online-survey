@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.qunar.survey.dao.ChoiceItemDao">
 
+    <insert id="insertOne" parameterType="ChoiceItem">
+        insert into choice_item(question_id, sequence, desc) values(#{questionId}, #{sequence}, #{desc});
+    </insert>
+
     <select id="findByQuestionId" resultType="ChoiceItem">
         select * from choice_item where question_id = #{questionId}
     </select>
