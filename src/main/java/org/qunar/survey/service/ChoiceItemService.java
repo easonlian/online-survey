@@ -32,6 +32,7 @@ public class ChoiceItemService {
      * @param questionId 题目id
      * @return 单题选项列表
      */
+    @SuppressWarnings("WeakerAccess")
     public List<ChoiceItemResp> getChoiceItems(int questionId) {
         List<ChoiceItem> choiceItems = choiceItemDao.findByQuestionId(questionId);
         return Collections.transform(choiceItems, new Function<ChoiceItem, ChoiceItemResp>() {

@@ -24,6 +24,7 @@
                     <option value="0">填空题</option>
                     <option value="1">单选题</option>
                     <option value="2">多选题</option>
+                    <option value="3">多填空题</option>
                 </select>
             </p>
             <input type="submit" value="提交 ">

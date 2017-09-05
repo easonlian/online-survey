@@ -8,9 +8,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import org.qunar.survey.bean.model.req.CommitQuestionnaireReq;
 import org.qunar.survey.bean.model.resp.JsonResp;
-import org.qunar.survey.bean.model.resp.QuestionnaireResp;
 import org.qunar.survey.service.AnswerService;
-import org.qunar.survey.service.QuestionnaireService;
 import org.qunar.survey.util.Collections;
 import org.qunar.survey.util.Jsons;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +32,13 @@ import java.util.Map;
  * Date: 2017/9/4 Time: 上午12:04
  */
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
-    @Autowired
-    private QuestionnaireService questionnaireService;
     @Autowired
     private AnswerService answerService;
 
     /**
      * 展示问卷填写页面
-     *
      * @param questionnaireId 问卷id
      * @param map             model map
      * @return detail page
@@ -51,14 +46,12 @@ public class UserController {
     @SuppressWarnings("SameReturnValue")
     @RequestMapping("/questionnaire/detail-{questionnaireId}")
     public String questionnaireDetail(@PathVariable int questionnaireId, ModelMap map) {
-        QuestionnaireResp questionnaire = questionnaireService.getQuestionnaire(questionnaireId);
-        map.put("questionnaire", questionnaire);
+        getQuestionnaireDetail(questionnaireId, map);
         return "detail";
     }
 
     /**
      * 提交问卷结果
-     *
      * @param req    请求参数
      * @param result check result
      * @return resp
@@ -84,6 +77,12 @@ public class UserController {
         return answerId != null ? JsonResp.success(answerId, "提交成功，感谢您配合调查！") : JsonResp.error("提交失败！");
     }
 
+    /**
+     * 跳转问卷结果详情
+     * @param answerId 回答id
+     * @param map model map
+     * @return page name
+     */
     @SuppressWarnings("SameReturnValue")
     @RequestMapping("/answer/detail-{answerId}")
     public String answerDetail(@PathVariable int answerId, ModelMap map) {

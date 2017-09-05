@@ -14,6 +14,7 @@ public enum QuestionType {
     FILL_IN_THE_BLACKS(0, "填空"),
     CHOICE(1, "单选"),
     MULTI_CHOICE(2, "多选"),
+    MULTI_FILL_IN_THE_BLACKS(3, "多填空")
     ;
     public final int code;
     private final String desc;

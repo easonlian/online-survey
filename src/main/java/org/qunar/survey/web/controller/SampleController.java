@@ -5,7 +5,6 @@ package org.qunar.survey.web.controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
 import org.qunar.survey.bean.entity.Answer;
 import org.qunar.survey.bean.entity.ChoiceItem;
 import org.qunar.survey.bean.entity.Question;
@@ -72,16 +71,8 @@ public class SampleController {
     }
 
     @SuppressWarnings("SameReturnValue")
-    @RequestMapping("/questionnaire/list")
-    public String questionnaireList(ModelMap map) {
-        map.put("list", transform(questionnaireDao.findByCondition(null)));
-        return "list";
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @RequestMapping("/answer/list")
-    public String answerList(ModelMap map) {
-        Integer questionnaireId = 1;
+    @RequestMapping("/answer/list-{questionnaireId}")
+    public String answerList(@PathVariable int questionnaireId, ModelMap map) {
         Questionnaire questionnaire = questionnaireDao.findById(questionnaireId);
         List<Answer> answers = answerDao.findByQuestionnaireId(questionnaireId);
         List<AnswerResp> answerRespList = Lists.newArrayList();
@@ -94,25 +85,6 @@ public class SampleController {
         map.put("questionnaire", questionnaire);
         map.put("answers", answerRespList);
         return "answer_list";
-    }
-
-    private List<QuestionnaireResp> transform(List<Questionnaire> entities) {
-        if (CollectionUtils.isEmpty(entities)) {
-            return Lists.newArrayList();
-        }
-        return Lists.transform(entities, new Function<Questionnaire, QuestionnaireResp>() {
-            @Override
-            public QuestionnaireResp apply(Questionnaire questionnaire) {
-                return transform(questionnaire);
-            }
-        });
-    }
-
-    private QuestionnaireResp transform(Questionnaire entity) {
-        QuestionnaireResp resp = new QuestionnaireResp();
-        BeanUtils.copyProperties(entity, resp);
-        resp.setLastUpdate(formatUpdateTime(entity.getUpdateTime()));
-        return resp;
     }
 
     @RequestMapping("/insert")

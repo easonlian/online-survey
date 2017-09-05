@@ -80,8 +80,8 @@
 
     <div class="page-header padding-left" style="margin-top: 30px; margin-bottom: 0; padding-bottom: 0;">
         <h5>说明：</h5>
-        <c:forEach items="${questionnaire.descList}" var="answer" varStatus="status">
-            <h5>${status.count}.&nbsp;${answer}</h5>
+        <c:forEach items="${questionnaire.descList}" var="questionnaire" varStatus="status">
+            <h5>${status.count}.&nbsp;${questionnaire}</h5>
         </c:forEach>
 
         <table class="table table-striped" style="margin-top: 20px;">

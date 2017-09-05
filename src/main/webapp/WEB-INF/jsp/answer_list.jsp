@@ -22,12 +22,12 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${answers}" var="answer" varStatus="status">
+                <c:forEach items="${answers}" var="questionnaire" varStatus="status">
                     <tr>
                         <td>${status.count}</td>
-                        <td><a href="./detail">${answer.user}</a></td>
-                        <td><a href="./detail">${answer.tel}</a></td>
-                        <td>${answer.date}</td>
+                        <td><a href="./detail-${questionnaire.id}">${questionnaire.user}</a></td>
+                        <td><a href="./detail-${questionnaire.id}">${questionnaire.tel}</a></td>
+                        <td>${questionnaire.date}</td>
                     </tr>
                 </c:forEach>
             </tbody>

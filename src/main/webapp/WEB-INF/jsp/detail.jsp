@@ -49,6 +49,13 @@
                                     </div>
                                     <span class="label label-info text-right" style="position: absolute;">${question.type.desc}</span>
                                 </c:when>
+                                <c:when test="${question.type == 'MULTI_FILL_IN_THE_BLACKS'}">
+                                    <c:forEach items="${question.choiceItems}" var="choice" varStatus="cStatus">
+                                        <span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">${cStatus.count}.&nbsp;${choice.desc}</span><br/>
+                                        <input type="text" dataid="${choice.id}" class="form-control multi-fill-in-the-blacks"
+                                               style="margin-top: 8px; margin-bottom: 8px;" placeholder="请在此处填写答案">
+                                    </c:forEach>
+                                </c:when>
                             </c:choose>
                             </div>
                         </td></tr>
@@ -63,8 +70,8 @@
 
     <div class="page-header padding-left" style="margin-top: 30px; margin-bottom: 0; padding-bottom: 0;">
         <h5>说明：</h5>
-        <c:forEach items="${questionnaire.descList}" var="answer" varStatus="status">
-            <h5>${status.count}.&nbsp;${answer}</h5>
+        <c:forEach items="${questionnaire.descList}" var="questionnaire" varStatus="status">
+            <h5>${status.count}.&nbsp;${questionnaire}</h5>
         </c:forEach>
 
         <table class="table table-striped" style="margin-top: 20px;">
@@ -135,8 +142,22 @@
                         } else {
                             answerMap[questionId + "-" + questionType] = choiceIds;
                         }
+                    } else if (questionType == "MULTI_FILL_IN_THE_BLACKS") {
+                        var textMap = {};
+                        $(this).find("input").each(function () {
+                            var text = $(this).val();
+                            if (text.length > 0) {
+                                textMap[$(this).attr("dataid")] = text;
+                            }
+                        });
+                        if (Object.keys(textMap).length <= 0) {
+                            errors[errors.length] = "题目: '" + $(".question_" + questionId + "").text() + "' 还没有填写！";
+                        } else {
+                            answerMap[questionId + "-" + questionType] = textMap;
+                        }
                     }
                 });
+
                 var userName = $("#userName").val();
                 var userTel = $("#userTel").val();
                 if (userName == "" || userTel == "") {

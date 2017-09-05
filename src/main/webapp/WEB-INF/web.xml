@@ -37,6 +37,27 @@
     <!--<listener>-->
         <!--<listener-class>org.h2.server.web.DbStarter</listener-class>-->
     <!--</listener>-->
+    
+    <security-constraint>
+        <display-name>权限限制</display-name>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>admin auth</description>
+            <role-name>survey</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <description>admin role</description>
+        <role-name>survey</role-name>
+    </security-role>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
 
     <display-name>online-survey</display-name>
 </web-app>
