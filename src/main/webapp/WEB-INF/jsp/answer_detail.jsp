@@ -66,6 +66,13 @@
                                     </div>
                                     <span class="label label-info text-right" style="position: absolute;">${question.type.desc}</span>
                                 </c:when>
+                                <c:when test="${question.type == 'MULTI_FILL_IN_THE_BLACKS'}">
+                                    <c:forEach items="${question.choiceItems}" var="choice" varStatus="cStatus">
+                                        <span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">${cStatus.count}.&nbsp;${choice.desc}</span><br/>
+                                        <input type="text" dataid="${choice.id}" class="form-control multi-fill-in-the-blacks"
+                                               style="margin-top: 8px; margin-bottom: 8px;" disabled="disabled" value="${choice.text}" placeholder="未填写答案">
+                                    </c:forEach>
+                                </c:when>
                             </c:choose>
                             </div>
                         </td></tr>

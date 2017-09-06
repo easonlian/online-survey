@@ -19,5 +19,7 @@ public class ChoiceItemResp {
     private String desc;            //  题目描述
     private String lastUpdate;      //  最后更新时间
 
+    private String text;            //  填空结果
+
     private Boolean active;         //  是否选中
 }

@@ -76,6 +76,16 @@ public class AnswerService {
                     }
                     answerItem.setChoiceIds(choiceIds);
                     break;
+                case MULTI_FILL_IN_THE_BLACKS:
+                    answerItem.setMultiText(Maps.<Integer, String>newHashMap());
+                    @SuppressWarnings("unchecked")
+                    Map<String, String> textMap = (Map<String, String>) answerData.get(dataKey);
+                    for (String itemId : textMap.keySet()) {
+                        Integer textId = Integer.valueOf(itemId);
+                        answerItem.getMultiText().put(textId, textMap.get(itemId));
+                    }
+                    System.out.println(answerItem);
+                    break;
             }
             answer.getData().getAnswerItems().add(answerItem);
         }
@@ -104,6 +114,8 @@ public class AnswerService {
                         choiceItemResp.setActive(questionResp.getAnswerItem().getChoiceId().equals(choiceItemResp.getId()));
                     } else if (questionResp.getType() == QuestionType.MULTI_CHOICE) {
                         choiceItemResp.setActive(questionResp.getAnswerItem().getChoiceIds().contains(choiceItemResp.getId()));
+                    } else if (questionResp.getType() == QuestionType.MULTI_FILL_IN_THE_BLACKS) {
+                        choiceItemResp.setText(questionResp.getAnswerItem().getMultiText().get(choiceItemResp.getId()));
                     }
                 }
             }
