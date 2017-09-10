@@ -14,13 +14,10 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBorder;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHighlight;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STHighlightColor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 import org.qunar.survey.bean.entity.AnswerItem;
 import org.qunar.survey.bean.model.resp.AnswerResp;
@@ -176,7 +173,7 @@ public class AdminController extends BaseController {
                                     (questionResp.getType() == CHOICE && answerItem.getChoiceId().equals(choiceItems.get(j).getId()))
                                     || (questionResp.getType() == MULTI_CHOICE && answerItem.getChoiceIds().contains(choiceItems.get(j).getId()))
                             );
-                            String desc = buildSubNumber(j + 1) + choiceItems.get(j).getDesc();
+                            String desc = buildSubNumber(j + 1) + choiceItems.get(j).getDesc() + (chose ? "✔" : "");
                             choicePairs.add(Pair.of(chose, desc));
                         }
                         buildParagraph(table.createRow(), LEFT, choicePairs);
@@ -322,10 +319,15 @@ public class AdminController extends BaseController {
         }
     }
 
+    /**
+     * 高亮显示文字
+     * @param pRun run
+     */
+    @SuppressWarnings("unused")
     private void highLightRunText(XWPFRun pRun) {
-        CTRPr pRpr = pRun.getCTR() == null ? pRun.getCTR().addNewRPr() : pRun.getCTR().getRPr();
-        CTHighlight highLight = pRpr.isSetHighlight() ? pRpr.getHighlight() : pRpr.addNewHighlight();
-        highLight.setVal(STHighlightColor.Enum.forInt(7));
+//        CTRPr pRpr = pRun.getCTR() == null ? pRun.getCTR().addNewRPr() : pRun.getCTR().getRPr();
+//        CTHighlight highLight = pRpr.isSetHighlight() ? pRpr.getHighlight() : pRpr.addNewHighlight();
+//        highLight.setVal(STHighlightColor.Enum.forInt(7));
     }
 
     /**
