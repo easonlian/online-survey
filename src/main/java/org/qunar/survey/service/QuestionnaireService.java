@@ -59,7 +59,7 @@ public class QuestionnaireService {
      * @param questionnaireId 问卷id
      * @return 问卷响应
      */
-    private QuestionnaireResp getQuestionnaire(int questionnaireId, boolean hasSection) {
+    public QuestionnaireResp getQuestionnaire(int questionnaireId, boolean hasSection) {
         Questionnaire questionnaire = questionnaireDao.findById(questionnaireId);
         QuestionnaireResp questionnaireResp = new QuestionnaireResp();
         BeanUtils.copyProperties(questionnaire, questionnaireResp);

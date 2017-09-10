@@ -10,12 +10,14 @@ import org.qunar.survey.bean.entity.Answer;
 import org.qunar.survey.bean.entity.AnswerItem;
 import org.qunar.survey.bean.entity.QuestionType;
 import org.qunar.survey.bean.model.req.CommitQuestionnaireReq;
+import org.qunar.survey.bean.model.resp.AnswerResp;
 import org.qunar.survey.bean.model.resp.ChoiceItemResp;
 import org.qunar.survey.bean.model.resp.QuestionResp;
 import org.qunar.survey.bean.model.resp.QuestionnaireResp;
 import org.qunar.survey.bean.model.resp.SectionResp;
 import org.qunar.survey.dao.AnswerDao;
 import org.qunar.survey.util.Dates;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,7 +86,6 @@ public class AnswerService {
                         Integer textId = Integer.valueOf(itemId);
                         answerItem.getMultiText().put(textId, textMap.get(itemId));
                     }
-                    System.out.println(answerItem);
                     break;
             }
             answer.getData().getAnswerItems().add(answerItem);
@@ -124,6 +125,41 @@ public class AnswerService {
         questionnaireResp.setTel(answer.getTel());
         questionnaireResp.setDate(Dates.formatTime(answer.getCreateTime()));
         return questionnaireResp;
+    }
+
+    /**
+     * 查询问卷所有结果list
+     * @param questionnaireId 问卷id
+     * @return 结果list
+     */
+    public List<AnswerResp> getQuestionnaireAnswers(int questionnaireId) {
+        List<Answer> answers = answerDao.findByQuestionnaireId(questionnaireId);
+        List<AnswerResp> answerRespList = Lists.newArrayList();
+        for (Answer answer : answers) {
+            answerRespList.add(transform(answer));
+        }
+        return answerRespList;
+    }
+
+    /**
+     * 查询问卷结果
+     * @param answerId 结果id
+     * @return 问卷结果
+     */
+    public AnswerResp getQuestionnaireAnswer(int answerId) {
+        return transform(answerDao.findById(answerId));
+    }
+
+    /**
+     * 转换answer对象
+     * @param answer answer
+     * @return answer resp
+     */
+    private AnswerResp transform(Answer answer) {
+        AnswerResp answerResp = new AnswerResp();
+        BeanUtils.copyProperties(answer, answerResp);
+        answerResp.setDate(Dates.formatTime(answer.getCreateTime()));
+        return answerResp;
     }
 
     /**

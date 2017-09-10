@@ -52,8 +52,6 @@ public class SampleController {
     private QuestionDao questionDao;
     @Autowired
     private ChoiceItemDao choiceItemDao;
-    @Autowired
-    private AnswerDao answerDao;
 
     @Autowired
     private QuestionnaireService questionnaireService;
@@ -64,27 +62,6 @@ public class SampleController {
     public JsonResp<QuestionnaireResp> query(@PathVariable int questionnaireId) {
         QuestionnaireResp questionnaireResp = questionnaireService.getQuestionnaire(questionnaireId);
         return JsonResp.success(questionnaireResp);
-    }
-
-    private String formatUpdateTime(Date updateTime) {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(updateTime);
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    @RequestMapping("/answer/list-{questionnaireId}")
-    public String answerList(@PathVariable int questionnaireId, ModelMap map) {
-        Questionnaire questionnaire = questionnaireDao.findById(questionnaireId);
-        List<Answer> answers = answerDao.findByQuestionnaireId(questionnaireId);
-        List<AnswerResp> answerRespList = Lists.newArrayList();
-        for (Answer answer : answers) {
-            AnswerResp answerResp = new AnswerResp();
-            BeanUtils.copyProperties(answer, answerResp);
-            answerResp.setDate(formatUpdateTime(answer.getCreateTime()));
-            answerRespList.add(answerResp);
-        }
-        map.put("questionnaire", questionnaire);
-        map.put("answers", answerRespList);
-        return "answer_list";
     }
 
     @RequestMapping("/insert")

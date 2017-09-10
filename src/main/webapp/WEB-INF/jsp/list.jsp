@@ -26,11 +26,12 @@
                 <c:forEach items="${list}" var="questionnaire" varStatus="status">
                     <tr>
                         <td>${status.count}</td>
-                        <td><a href="../../questionnaire/detail-${questionnaire.id}">${questionnaire.title}</a></td>
+                        <td><a href="../answer/list-${questionnaire.id}">${questionnaire.title}</a></td>
                         <td>${questionnaire.serialNum}</td>
                         <td>${questionnaire.office}</td>
                         <td>${questionnaire.lastUpdate}</td>
                         <td>
+                            <a class="btn btn-sm btn-info" href="../../questionnaire/detail-${questionnaire.id}">查看问卷</a>
                             <button type="button" class="btn btn-sm btn-danger"
                                     data-toggle="modal" data-target="#myModal${questionnaire.id}">
                                 <span class="glyphicon glyphicon-qrcode"></span>&nbsp;查看二维码

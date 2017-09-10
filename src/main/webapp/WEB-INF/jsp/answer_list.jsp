@@ -19,6 +19,7 @@
                     <th>受访人</th>
                     <th>受访电话</th>
                     <th>受访时间</th>
+                    <th>导出word</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,9 @@
                         <td><a href="./detail-${questionnaire.id}">${questionnaire.user}</a></td>
                         <td><a href="./detail-${questionnaire.id}">${questionnaire.tel}</a></td>
                         <td>${questionnaire.date}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info" target="_blank" href="../export-word?aid=${questionnaire.id}">导出结果</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
